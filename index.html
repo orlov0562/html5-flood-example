@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+</head> 
+<body>
+Уровень поднятия: <input type="text" id="ns" value="50">
+<input type="button" value="Отобразить разлив" onclick="redraw()"/>
+<hr />
+<canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+<script>
+
+function draw(n)
+{
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    ctx.beginPath();
+    ctx.moveTo(0-n, 0+n);
+    ctx.lineTo(30-n, 30+n);
+    ctx.lineTo(50-n, 30+n);
+    ctx.lineTo(50-n, 50+n);
+    ctx.lineTo(150-n, 250+n);
+    ctx.lineTo(250-n, 280+n);
+    ctx.lineTo(300-n, 280+n);
+    ctx.lineTo(300-n, 400+n);
+    ctx.lineTo(400-n, 450+n);
+    ctx.lineTo(450-n, 350+n);
+    ctx.lineTo(500-n, 500+n);
+    ctx.lineTo(600-n, 600+n);
+    if (n) {
+        ctx.lineWidth=1;
+        ctx.strokeStyle = '#2058FF'; 
+    } else {
+        ctx.lineWidth=2;
+    }
+    ctx.stroke();
+}
+
+function redraw(){
+  var mn = document.getElementById('ns').value;
+  var ln=0;
+  var rn=0;  
+  var c = document.getElementById("myCanvas");
+  var ctx = c.getContext("2d");
+  var img = new Image();
+  img.src = 'map.png';
+  img.onload = function(){
+    ctx.clearRect ( 0 , 0 , c.width, c.height );
+    ctx.drawImage(img,0,0);
+    draw(0);
+    var anim = setInterval(function(){
+    if (ln>=mn) {
+        clearInterval(anim);
+        return;
+    }
+    ln++; rn--;
+    draw(ln); 
+    draw(rn); 
+    }, 30);
+  }
+}
+
+
+</script>
+
+
+
+</body>
+</html>
